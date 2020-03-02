@@ -19,27 +19,28 @@
  *
  * Checks against an external webservice.
  *
- * @package    auth_ws
- * @author     Daniel Neis Araujo
+ * @package    auth_wsr
+ * @author     UNER FCEDU based on Daniel Neis Araujo work
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/authlib.php');
-//require_once($CFG->libdir.'/bcrypt.php');
+
 /**
  * External webservice authentication plugin.
  */
-class auth_plugin_ws extends auth_plugin_base {
+
+class auth_plugin_wsr extends auth_plugin_base {
 
 public $datos;
     /**
      * Constructor.
      */
     public function __construct() {
-        $this->authtype = 'ws';
-        $this->config = get_config('auth_ws');
+        $this->authtype = 'wsr';
+        $this->config = get_config('auth_wsr');
 
         if (isset($this->config->default_params) && !empty($this->config->default_params)) {
             $params = explode(',', $this->config->default_params);
@@ -48,9 +49,9 @@ public $datos;
                 list($paramname, $value) = explode(':', $p);
                 $defaultparams[$paramname] = $value;
             }
-            $this->config->ws_default_params = $defaultparams;
+            $this->config->wsr_default_params = $defaultparams;
         } else {
-            $this->config->ws_default_params = array();
+            $this->config->wsr_default_params = array();
         }
     }
 
@@ -67,11 +68,12 @@ public $datos;
         $functionname = $this->config->auth_function;
 	$clave = (md5($password));
         $params  = array($this->config->auth_function_username_paramname => $username,
-                         $this->config->auth_function_password_paramname => $clave);
+                         $this->config->auth_function_password_paramname => $clave,
+			 $this->config->auth_method => $metodo,
+			 $this->config->auth_username_rest => $username,
+			 $this->config->auth_password_rest => $password);
 
-        $result = $this->call_ws($this->config->serverurl, $functionname, $params);
-// ($result->{$this->config->auth_function_resultClass}->{$this->config->auth_function_resultField} == true);
-//        return ($result->{$this->config->auth_function_resultClass}->{$this->config->auth_function_resultField} == true);
+        $result = $this->call_wsr($this->config->serverurl, $functionname, $params);
 	return $result;
     }
 
@@ -92,33 +94,32 @@ public $datos;
         return array();
     }
 
-    private function call_ws($serverurl, $functionname, $params = array()) {
+    private function call_wsr($serverurl, $functionname, $params = array()) {
 
-        $serverurl = $serverurl . $functionname.'/'.$params['identificacion'].'/acceso/'.$params['clave'];
-        $params = array_merge($this->config->ws_default_params, $params);
-
-/*        $client = new SoapClient($serverurl);
-        try {
-            $resp = $client->__soapCall($functionname, array($params));
-
-            return $resp;
-        } catch (Exception $e) {
-            echo "Exception:\n";
-            echo $e->getMessage();
-            echo "===\n";
-             return false;
-        }
-*/
+        $params = array_merge($this->config->wsr_default_params, $params);
+	if (isset($params['a']) && !empty($params['a'])) {
+		$params['a'] = '/'.$params['a'].'/';}
+	else {
+		$params['a'] = '/';
+	}
+        $serverurl = $serverurl . $functionname.'/'.$params['identificacion'].$params['a'].$params['clave'];
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $serverurl);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-	curl_setopt($ch, CURLOPT_USERPWD, 'moodle_fcedu:234HdhilsjdfasdosedR');
+
+        switch ($params['metodo']) {
+        case 'basic': curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		break;
+	case 'digest': curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		break;
+	}
+	$user = $this->config->auth_username_rest;
+	$pass = $this->config->auth_password_rest;
+	curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
 	$headr = array();
 	$headr[] = 'Content-length: 0';
 	$headr[] = 'Content-type: application/json';
-	//$headr[] = 'Authorization: Basic MjgxNjc1NjM6MTMwNTE5ODA='; // para autorisacion = toba
 	curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
 
 	try {

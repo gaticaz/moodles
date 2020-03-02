@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Task definition for auth_ws.
+ * Task definition for auth_wsr.
  *
- * @package   auth_ws
- * @copyright Daniel Neis Araujo <danielneis@gmail.com>
+ * @package   auth_wsr
+ * @copyright UNER FCEDU based on Daniel Neis Araujo <danielneis@gmail.com> work
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = array(
     array(
-        'classname' => '\auth_ws\task\sync_users',
+        'classname' => '\auth_wsr\task\sync_users',
         'blocking' => 0,
         'minute' => 'R',
         'hour' => 'R',

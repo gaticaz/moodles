@@ -17,8 +17,8 @@
 /**
  * External webservice auth settings and defaults.
  *
- * @package auth_ws
- * @copyright  2017 Daniel Neis Araujo
+ * @package auth_wsr
+ * @copyright  2019 UNER FCEDU based on Daniel Neis Araujo work
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,44 +26,62 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
-    $settings->add(new admin_setting_configtext('auth_ws/serverurl',
-                                                get_string('serverurl', 'auth_ws'),
-                                                get_string('serverurl_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configtext('auth_wsr/serverurl',
+                                                get_string('serverurl', 'auth_wsr'),
+                                                get_string('serverurl_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/default_params',
-                                                get_string('default_params', 'auth_ws'),
-                                                get_string('default_params_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configtext('auth_wsr/default_params',
+                                                get_string('default_params', 'auth_wsr'),
+                                                get_string('default_params_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/auth_function',
-                                                get_string('auth_function', 'auth_ws'),
-                                                get_string('auth_function_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configtext('auth_wsr/auth_function',
+                                                get_string('auth_function', 'auth_wsr'),
+                                                get_string('auth_function_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/auth_function_username_paramname',
-                                                get_string('auth_function_username_paramname', 'auth_ws'),
-                                                get_string('auth_function_username_paramname_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configtext('auth_wsr/auth_function_username_paramname',
+                                                get_string('auth_function_username_paramname', 'auth_wsr'),
+                                                get_string('auth_function_username_paramname_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/auth_function_password_paramname',
-                                                get_string('auth_function_password_paramname', 'auth_ws'),
-                                                get_string('auth_function_password_paramname_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configtext('auth_wsr/auth_function_password_paramname',
+                                                get_string('auth_function_password_paramname', 'auth_wsr'),
+                                                get_string('auth_function_password_paramname_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/auth_function_resultClass',
-                                                get_string('auth_function_resultClass', 'auth_ws'),
-                                                get_string('auth_function_resultClass_desc', 'auth_ws'),
+    $authopt = array();
+    $authopt[AUTH_GUARANI_BASIC] = get_string('auth_guarani_basic', 'auth_wsr');
+    $authopt[AUTH_GUARANI_DIGEST] = get_string('auth_guarani_digest', 'auth_wsr');
+
+    $settings->add(new admin_setting_configselect('auth_wsr/auth_method',
+        new lang_string('guarani_auth_method_key', 'auth_wsr'),
+        new lang_string('guarani_auth_method', 'auth_wsr'), AUTH_GUARANI_BASIC, $authopt));
+
+    $settings->add(new admin_setting_configtext('auth_wsr/auth_username_rest',
+                                                get_string('auth_username_rest', 'auth_wsr'),
+                                                get_string('auth_username_rest_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/auth_function_resultField',
-                                                get_string('auth_function_resultField', 'auth_ws'),
-                                                get_string('auth_function_resultField_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configpasswordunmask('auth_wsr/auth_password_rest',
+                                                get_string('auth_password_rest', 'auth_wsr'),
+                                                get_string('auth_password_rest_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('auth_ws/changepasswordurl',
-                                                get_string('changepasswordurl', 'auth_ws'),
-                                                get_string('changepasswordurl_desc', 'auth_ws'),
+    $settings->add(new admin_setting_configtext('auth_wsr/auth_function_resultClass',
+                                                get_string('auth_function_resultClass', 'auth_wsr'),
+                                                get_string('auth_function_resultClass_desc', 'auth_wsr'),
+                                                '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('auth_wsr/auth_function_resultField',
+                                                get_string('auth_function_resultField', 'auth_wsr'),
+                                                get_string('auth_function_resultField_desc', 'auth_wsr'),
+                                                '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('auth_wsr/changepasswordurl',
+                                                get_string('changepasswordurl', 'auth_wsr'),
+                                                get_string('changepasswordurl_desc', 'auth_wsr'),
                                                 '', PARAM_TEXT));
 
     $deleteopt = array();
@@ -71,7 +89,7 @@ if ($ADMIN->fulltree) {
     $deleteopt[AUTH_REMOVEUSER_SUSPEND] = get_string('auth_remove_suspend', 'auth');
     $deleteopt[AUTH_REMOVEUSER_FULLDELETE] = get_string('auth_remove_delete', 'auth');
 
-    $settings->add(new admin_setting_configselect('auth_ws/removeuser',
+    $settings->add(new admin_setting_configselect('auth_wsr/removeuser',
         new lang_string('auth_remove_user_key', 'auth'),
         new lang_string('auth_remove_user', 'auth'), AUTH_REMOVEUSER_KEEP, $deleteopt));
 }

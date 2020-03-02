@@ -17,20 +17,20 @@
 /**
  * Sync users task
  *
- * @package   auth_ws
- * @copyright Daniel Neis Araujo <danielneis@gmail.com>
+ * @package   auth_wsr
+ * @copyright FCEDU UNER based on Daniel Neis Araujo <danielneis@gmail.com> work
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace auth_ws\task;
+namespace auth_wsr\task;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Sync users task class
  *
- * @package   auth_ws
- * @copyright Daniel Neis Araujo <danielneis@gmail.com>
+ * @package   auth_wsr
+ * @copyright UNER FCEDU baed on Daniel Neis Araujo <danielneis@gmail.com> work
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class sync_users extends \core\task\scheduled_task {
@@ -41,20 +41,20 @@ class sync_users extends \core\task\scheduled_task {
      * @return string
      */
     public function get_name() {
-        return get_string('syncuserstask', 'auth_ws');
+        return get_string('syncuserstask', 'auth_wsr');
     }
 
     /**
      * Run task for synchronising users.
      */
     public function execute() {
-        if (!is_enabled_auth('ws')) {
-            mtrace('auth_ws plugin is disabled, synchronisation stopped', 2);
+        if (!is_enabled_auth('wsr')) {
+            mtrace('auth_wsr plugin is disabled, synchronisation stopped', 2);
             return;
         }
 
-        $auth = get_auth_plugin('ws');
-        $config = get_config('auth_ws');
+        $auth = get_auth_plugin('wsr');
+        $config = get_config('auth_wsr');
         $trace = new \text_progress_trace();
         $update = !empty($config->updateusers);
         $auth->sync_users($trace, $update);

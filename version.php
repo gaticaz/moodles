@@ -17,13 +17,13 @@
 /**
  * Version details
  *
- * @package    auth_ws
- * @copyright  Daniel Neis Araujo
+ * @package    auth_wsr
+ * @copyright  UNER FCEDU based on Daniel Neis Araujo work.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018093001;
+$plugin->version   = 2019080000;
 $plugin->requires  = 2017051500;
-$plugin->component = 'auth_ws';
+$plugin->component = 'auth_wsr'; // Full name of the plugin (used for diagnostics).

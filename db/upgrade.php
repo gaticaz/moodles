@@ -15,27 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * WS authentication plugin upgrade code
+ * WSR authentication plugin upgrade code
  *
- * @package    auth_ws
- * @copyright  2018 Daniel Neis Araujo
+ * @package    auth_wsr
+ * @copyright  2019 UNER FCEDU based on Daniel Neis Araujo work
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Function to upgrade auth_ws.
+ * Function to upgrade auth_wsr.
  * @param int $oldversion the version we are upgrading from
  * @return bool result
  */
-function xmldb_auth_ws_upgrade($oldversion) {
+function xmldb_auth_wsr_upgrade($oldversion) {
 
-    if ($oldversion < 2018021300) {
-        // Convert info in config plugins from auth/ws to auth_ws.
-        upgrade_fix_config_auth_plugin_names('ws');
-        upgrade_fix_config_auth_plugin_defaults('ws');
-        upgrade_plugin_savepoint(true, 2018021300, 'auth', 'ws');
+    if ($oldversion < 2019011000) {
+        // Convert info in config plugins from auth/wsr to auth_wsr.
+        upgrade_fix_config_auth_plugin_names('wsr');
+        upgrade_fix_config_auth_plugin_defaults('wsr');
+        upgrade_plugin_savepoint(true, 2019021200, 'auth', 'wsr');
     }
     return true;
 }
