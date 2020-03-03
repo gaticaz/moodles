@@ -34,4 +34,7 @@ Los usuarios deben tener como modo de identificación este complemento para que 
 
 La captura de pantalla que acompaña el paquete del complemento muestra un ejemplo de cómo configurar su complemento para llamar a su servicio web.
 
+![Config Example](https://github.com/gaticaz/wsr/blob/master/ejemplo_config_auth_wsr.png)
+
+
 Reportes de errores o colaboraciones a martin.gatica@uner.edu.ar
